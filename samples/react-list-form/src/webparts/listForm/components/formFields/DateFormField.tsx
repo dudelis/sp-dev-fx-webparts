@@ -35,8 +35,8 @@ export default class DateFormField extends React.Component<IDateFormFieldProps, 
   public componentDidUpdate(prevProps: IDateFormFieldProps, prevState: IDateFormFieldState) {
     //Component Value property got updated from List State
     if (this.props.value && prevProps.value != this.props.value) {
-      console.log("Component Value property got updated from List State");
-      let momentDate = moment(this.props.value);
+      //Added a simple check if the DateTime value is for [today]
+      let momentDate = this.props.value == "[today]" ? moment() : moment(this.props.value);
       this.setState({
         hours: momentDate.hour(),
         minutes: momentDate.minute(),
