@@ -12,7 +12,6 @@ import { IFieldSchema } from '../../../../common/services/datatypes/RenderListDa
 
 import * as stylesImport from 'office-ui-fabric-react/lib/components/TextField/TextField.types';
 const styles: any = stylesImport;
-
 import ardStyles from './FormField.module.scss';
 
 export interface IFormFieldProps {
@@ -63,7 +62,7 @@ const FormField: React.SFC<IFormFieldProps> = (props) => {
             <div aria-live='assertive'>
               <DelayedRender>
                 <p className={css('ard-FormField-errorMessage', AnimationClassNames.slideDownIn20, styles.errorMessage)}>
-                  {Icon({ iconName: 'Error', className: styles.errorIcon })}
+                  {<Icon iconName="Error" className={styles.errorMessage} />}
                   <span className={styles.errorText} data-automation-id='error-message'>{errorMessage}</span>
                 </p>
               </DelayedRender>

@@ -4,6 +4,7 @@ import { IFieldConfiguration } from './IFieldConfiguration';
 import { IListFormProps } from './IListFormProps';
 import { IListFormState } from './IListFormState';
 import { ControlMode } from '../../../common/datatypes/ControlMode';
+import { isEmpty } from '@microsoft/sp-lodash-subset';
 
 import { IListFormService } from '../../../common/services/IListFormService';
 import { ListFormService } from '../../../common/services/ListFormService';
@@ -23,7 +24,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import * as strings from 'ListFormStrings';
 
 import styles from './ListForm.module.scss';
-import { Validate } from '@microsoft/sp-core-library';
+import { run, ruleRunner } from './validation/RuleRunner'
+import { required, } from './validation/Rules';
 
 /*************************************************************************************
  * React Component to render a SharePoint list form on any page.
@@ -32,6 +34,13 @@ import { Validate } from '@microsoft/sp-core-library';
  * fields of an existing list item.
  * In design mode the fields to render can be moved, added and deleted.
  *************************************************************************************/
+
+//Validation of the form
+const fieldValidations = [
+  ruleRunner("Title", "Title", required)
+];
+
+
 class ListForm extends React.Component<IListFormProps, IListFormState> {
 
   private listFormService: IListFormService;
@@ -274,6 +283,12 @@ class ListForm extends React.Component<IListFormProps, IListFormState> {
 
   private async saveItem(): Promise<void> {
     this.setState({ ...this.state, isSaving: true, errors: [] });
+    //Added validation chack before submit.
+    let fieldErrors = run(this.state, fieldValidations);
+    this.setState({ ...this.state, fieldErrors: fieldErrors });
+    if (!isEmpty(fieldErrors))
+      return;
+
     try {
       let updatedValues;
       if (this.props.id) {
@@ -307,7 +322,8 @@ class ListForm extends React.Component<IListFormProps, IListFormState> {
       } else {
         updatedValues.reduce(
           (val, merged) => {
-            merged[val.FieldName] = merged[val.FieldValue]; return merged;
+            merged[val.FieldName] = merged[val.FieldValue];
+            return merged;
           },
           newState.data,
         );
