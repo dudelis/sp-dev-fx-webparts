@@ -1,16 +1,14 @@
 import * as React from 'react';
 
-import { Label } from 'office-ui-fabric-react/lib/Label';
+import { Icon, Label } from 'office-ui-fabric-react';
 import { css, DelayedRender } from 'office-ui-fabric-react/lib/Utilities';
-
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-
-import { AnimationClassNames } from '@uifabric/styling';
+import { AnimationClassNames, getTheme, ITheme } from '@uifabric/styling';
+import * as stylesImport from 'office-ui-fabric-react/lib/components/TextField/TextField.types';
 
 import { ControlMode } from '../../../../common/datatypes/ControlMode';
 import { IFieldSchema } from '../../../../common/services/datatypes/RenderListData';
 
-import * as stylesImport from 'office-ui-fabric-react/lib/components/TextField/TextField.types';
+
 const styles: any = stylesImport;
 import ardStyles from './FormField.module.scss';
 
@@ -25,10 +23,10 @@ export interface IFormFieldProps {
   value: any;
   errorMessage?: string;
   valueChanged(newValue: any): void;
-}
+};
 
 const FormField: React.SFC<IFormFieldProps> = (props) => {
-
+  let theme: ITheme = getTheme();
   const {
     children,
     className,
@@ -61,9 +59,9 @@ const FormField: React.SFC<IFormFieldProps> = (props) => {
           {errorMessage &&
             <div aria-live='assertive'>
               <DelayedRender>
-                <p className={css('ard-FormField-errorMessage', AnimationClassNames.slideDownIn20, styles.errorMessage)}>
+                <p style={{ color: theme.semanticColors.errorText }} className={css('ard-FormField-errorMessage', AnimationClassNames.slideDownIn20, styles.errorMessage)}>
                   {<Icon iconName="Error" className={styles.errorMessage} />}
-                  <span className={styles.errorText} data-automation-id='error-message'>{errorMessage}</span>
+                  <span data-automation-id='error-message'>{errorMessage}</span>
                 </p>
               </DelayedRender>
             </div>

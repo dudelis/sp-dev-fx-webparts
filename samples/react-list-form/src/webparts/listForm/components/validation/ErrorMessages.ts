@@ -1,2 +1,2 @@
 
-export const isRequired = (fieldName: string) => { return `${fieldName} is required` };
+export const isRequired = (fieldName: string) => `${fieldName} is required`;

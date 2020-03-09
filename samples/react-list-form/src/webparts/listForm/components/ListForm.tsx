@@ -37,7 +37,10 @@ import { required, } from './validation/Rules';
 
 //Validation of the form
 const fieldValidations = [
-  ruleRunner("Title", "Title", required)
+  ruleRunner("Title", "Title", required),
+  ruleRunner("EventCampus", "Event Campus", required),
+  ruleRunner("Category", "Category", required),
+  ruleRunner("EventType0", "Type of Event", required)
 ];
 
 
