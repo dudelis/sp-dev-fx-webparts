@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
+import "@pnp/polyfill-ie11";
 
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import {
@@ -109,10 +110,9 @@ export default class CalendarFeedSummaryWebPart extends BaseClientSideWebPart<IC
         },
       }
     );
-
     ReactDom.render(element, this.domElement);
   }
-
+  
   /**
    * We're disabling reactive property panes here because we don't want the web part to try to update events as
    * people are typing in the feed URL.
